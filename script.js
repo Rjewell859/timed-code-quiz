@@ -10,6 +10,12 @@ var highScores = document.querySelector("#highscores");
 var choiceResult = document.querySelector("#result");
 
 var questionIndex = 0;
+var seconds = 100;
+
+var option1 = document.createElement("button");
+    var option2 = document.createElement("button");
+    var option3 = document.createElement("button");
+    var option4 = document.createElement("button");
 
 var questions = [
     {
@@ -43,20 +49,22 @@ var questions = [
 function start() {
     startButton.remove();
     introParagraph.remove();
-    getQuestion();
+   
+    quizRunning();
     
 }
 
 function getQuestion() {
 
     question.innerHTML = questions[questionIndex].content;
-    var option1 = document.createElement("button");
+
+    
+    
+    
+    
     option1.innerHTML = questions[questionIndex].choices[0];
-    var option2 = document.createElement("button");
     option2.innerHTML = questions[questionIndex].choices[1];
-    var option3 = document.createElement("button");
     option3.innerHTML = questions[questionIndex].choices[2];
-    var option4 = document.createElement("button");
     option4.innerHTML = questions[questionIndex].choices[3];
 
     optionButtons.append(option1);
@@ -64,12 +72,12 @@ function getQuestion() {
     optionButtons.append(option3);
     optionButtons.append(option4);
 
-    option1.addEventListener('click', isCorrect(option1));
-    option2.addEventListener('click', isCorrect(option2));
-    option3.addEventListener('click', isCorrect(option3));
-    option4.addEventListener('click', isCorrect(option4));
+    option1.addEventListener('click', function(e){e.stopPropagation(); isCorrect(option1);});
+    option2.addEventListener('click', function(e){e.stopPropagation(); isCorrect(option2);});
+    option3.addEventListener('click', function(e){e.stopPropagation(); isCorrect(option3);});
+    option4.addEventListener('click', function(e){e.stopPropagation(); isCorrect(option4);});
 
-    quizRunning();
+    
 
 
 
@@ -78,7 +86,7 @@ function getQuestion() {
 function quizRunning() {
     
 
-    var seconds = 100;
+    
 
 function decrementSeconds() {
     seconds -= 1;
@@ -87,18 +95,19 @@ function decrementSeconds() {
 
 var cancel = setInterval(decrementSeconds, 1000);
 
-
-
-
-
-
-
-
+getQuestion();
 
 
 }
 
-function isCorrect(selected) {
+function isCorrect(e) {
+    e.stopPro 
+    if (e.innerHTML == questions[questionIndex].answer) {
+        rightAnswer();
+    }
+    else {
+        wrongAnswer();
+    }
     
 
 
@@ -106,11 +115,23 @@ function isCorrect(selected) {
 
 function wrongAnswer() {
 
+    choiceResult.innerHTML = "WRONG!";
+    questionIndex += 1;
+    seconds -= 10;
+    getQuestion();
+    
+
 }
 
 function rightAnswer() {
+    choiceResult.innerHTML  ="Correct!";
+    questionIndex +=1;
+    getQuestion();
+    
 
 }
+
+
 
 function submitHighscore() {
 
