@@ -1,0 +1,17 @@
+
+ul {
+    display: inline;
+    position: relative;
+    left: 50%;
+    list-style-type: none;
+    justify-content: space-between;
+}
+li div {
+    display: inline;
+    
+}
+
+li a {
+    display: inline;
+
+}
