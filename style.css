@@ -8,7 +8,7 @@ header ul{
     height: fit-content;
     background: linear-gradient(40deg, rgb(50, 100, 200), rgb( 60, 200, 100));
 }
-ul li{
+header ul li{
     font-size: 180%;
     color: whitesmoke;
     display: inline-block;
@@ -66,4 +66,11 @@ box-shadow: inset 0 12px 12px -12px rgba(47, 101, 248, 0.801);
 
 #start {
     margin: auto;
+}
+
+#highscores li{
+    color: rgb(8, 3, 56);
+    font-size: 140%;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 2px 2px 5px rgba(47, 101, 248, 0.601);
 }
