@@ -42,6 +42,17 @@ button {
     background: linear-gradient(to bottom, rgba(71, 183, 211, 0.726), rgba(85, 238, 131, 0.5));
 }
 
+button:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    
+}
+#result {
+    font-size:150%;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color:rgb(220, 43, 226);
+    font-style: italic;
+}
 hr {
 height: 10px;
 border: 0;

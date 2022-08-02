@@ -117,14 +117,14 @@ var questions = [
       "Var, string, symbol, object, small",
       "console, form, object, loop",
     ],
-  }
+  },
 ];
 
 submitSection.style.display = "none";
 restartButton.style.display = "none";
 highScores.style.display = "none";
-viewScores.addEventListener("click", viewHighscores);
 
+viewScores.addEventListener("click", viewHighscores);
 restartButton.addEventListener("click", restart);
 startButton.addEventListener("click", start);
 
@@ -133,31 +133,33 @@ function start() {
   questionIndex = 0;
   questionsLeft = questions.length - 1;
   toAnswer.textContent = questionsLeft;
-  startButton.setAttribute("style", "display: none");
-  introParagraph.setAttribute("style", "display: none");
+  startButton.style.display = "none";
+  introParagraph.style.display = "none";
 
   getQuestion();
   quizRunning();
 }
 
 function restart() {
-  question.setAttribute("style", "display: inline-block");
-  toAnswer.setAttribute("style", "display: inline-block");
-  option1.setAttribute("style", "display: inline-block");
-  option2.setAttribute("style", "display: inline-block");
-  option3.setAttribute("style", "display: inline-block");
-  option4.setAttribute("style", "display: inline-block");
-  toAnswer.setAttribute("style", "display: inline-block");
-  choiceResult.setAttribute("style", "display: inline-block");
+  question.style.display = "inline-block";
+  toAnswer.style.display = "inline-block";
+  option1.style.display = "inline-block";
+  option2.style.display = "inline-block";
+  option3.style.display = "inline-block";
+  option4.style.display = "inline-block";
+  toAnswer.style.display = "inline-block";
+  choiceResult.style.display = "inline-block";
   restartButton.style.display = "none";
   submitSection.style.display = "none";
   highScores.style.display = "none";
   choiceResult.innerHTML = "";
-  questionsLeft = questions.length - 1;
   start();
 }
 
 function getQuestion() {
+  if (questionsLeft <= 0) {
+    submitHighscore();
+  }
   var answer = questions[questionIndex].answer;
   question.innerHTML = questions[questionIndex].content;
 
@@ -169,7 +171,7 @@ function getQuestion() {
   optionButtons.appendChild(option1);
   optionButtons.appendChild(option2);
   optionButtons.appendChild(option3);
-  optionButtons.appendChild(option4);
+  optionButtons.appendChild(option4); 
 
   option1.addEventListener("click", function (event) {
     event.preventDefault();
@@ -191,14 +193,9 @@ function getQuestion() {
     event.stopPropagation();
     isCorrect(option4.innerText);
   });
-
-  if (questionsLeft <= 0) {
-    submitHighscore();
-  }
 }
 
 function quizRunning() {
-
   if (!timerOn) {
     var downloadTimer = setInterval(decrementSeconds, 1000);
   } else {
@@ -214,10 +211,10 @@ function quizRunning() {
   timerOn = true;
 }
 
-function isCorrect(selected) {
+function isCorrect(selected ) {
   var answer = questions[questionIndex].answer;
 
-  if (selected == answer) {
+  if (selected === answer) {
     rightAnswer();
   } else {
     wrongAnswer();
@@ -225,38 +222,45 @@ function isCorrect(selected) {
 }
 
 function rightAnswer() {
-  choiceResult.innerHTML = "Correct!";
+
+    
+  choiceResult.innerHTML = "Correct! " + "✅";
   var divider = document.createElement("hr");
   choiceResult.append(divider);
   questionsLeft -= 1;
-  questionIndex += 1;
+ 
   toAnswer.textContent = questionsLeft;
-  getQuestion();
+  incrementQuestion();
 }
 function wrongAnswer() {
-  choiceResult.innerHTML = "Wrong!";
+  choiceResult.innerHTML = "Wrong! " + "❎";
   var divider = document.createElement("hr");
   choiceResult.append(divider);
   questionsLeft -= 1;
-  questionIndex += 1;
+
   toAnswer.textContent = questionsLeft;
   seconds -= 10;
-  getQuestion();
+  incrementQuestion();
+}
+
+function incrementQuestion() {
+    questionIndex += 1;
+    getQuestion();
 }
 
 function submitHighscore() {
-  question.setAttribute("style", "display: none");
-  toAnswer.setAttribute("style", "display: none");
-  option1.setAttribute("style", "display: none");
-  option2.setAttribute("style", "display: none");
-  option3.setAttribute("style", "display: none");
-  option4.setAttribute("style", "display: none");
-  toAnswer.setAttribute("style", "display: none");
-  choiceResult.setAttribute("style", "display: none");
+  question.style.display = "none";
+  toAnswer.style.display = "none";
+  option1.style.display = "none";
+  option2.style.display = "none";
+  option3.style.display = "none";
+  option4.style.display = "none";
+  toAnswer.style.display = "none";
+  choiceResult.style.display = "none";
 
   submitSection.style.display = "inline-block";
   restartButton.style.display = "inline-block";
-  question.setAttribute("style", "display: inline");
+  question.style.display = "inline-block";
   question.innerHTML = "Enter Your Initials: ";
   submitButton.addEventListener("click", function () {
     var highScoreEntry = {
@@ -265,12 +269,9 @@ function submitHighscore() {
     };
 
     localStorage.setItem("entry", JSON.stringify(highScoreEntry));
-
-    console.log(JSON.parse(localStorage.getItem("entry")));
     var entryOb = JSON.parse(localStorage.getItem("entry"));
-    console.log(entryOb.initials + entryOb.highScore);
+    var newEntry = document.createElement("li");
 
-    var newEntry = document.createElement("div");
     newEntry.innerHTML =
       "Initials: " + entryOb.initials + " Score: " + entryOb.highScore;
     highScores.append(newEntry);
@@ -278,8 +279,10 @@ function submitHighscore() {
 }
 
 function viewHighscores() {
-  question.innerHTML = "High Scores: ";
-  highScores.style.display = "inline";
-  submitSection.style.display = "none";
-  questions.style.display = "none";
+  if (highScores != null) {
+    question.innerHTML = "High Scores: ";
+    highScores.style.display = "inline";
+    submitSection.style.display = "none";
+    questions.style.display = "none";
+  }
 }
