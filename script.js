@@ -141,6 +141,7 @@ function start() {
 }
 
 function restart() {
+  timerOn = false;
   question.style.display = "inline-block";
   toAnswer.style.display = "inline-block";
   option1.style.display = "inline-block";
@@ -171,7 +172,7 @@ function getQuestion() {
   optionButtons.appendChild(option1);
   optionButtons.appendChild(option2);
   optionButtons.appendChild(option3);
-  optionButtons.appendChild(option4); 
+  optionButtons.appendChild(option4);
 
   option1.addEventListener("click", function (event) {
     event.preventDefault();
@@ -211,7 +212,7 @@ function quizRunning() {
   timerOn = true;
 }
 
-function isCorrect(selected ) {
+function isCorrect(selected) {
   var answer = questions[questionIndex].answer;
 
   if (selected === answer) {
@@ -222,21 +223,20 @@ function isCorrect(selected ) {
 }
 
 function rightAnswer() {
-
-    
   choiceResult.innerHTML = "Correct! " + "✅";
   var divider = document.createElement("hr");
   choiceResult.append(divider);
   questionsLeft -= 1;
- 
+
   toAnswer.textContent = questionsLeft;
   incrementQuestion();
 }
-function wrongAnswer() {
+function wrongAnswer(event) {
+  event.preventDefault();
   choiceResult.innerHTML = "Wrong! " + "❎";
   var divider = document.createElement("hr");
   choiceResult.append(divider);
-  questionsLeft -= 1;
+  // questionsLeft -= 1;
 
   toAnswer.textContent = questionsLeft;
   seconds -= 10;
@@ -244,11 +244,10 @@ function wrongAnswer() {
 }
 
 function incrementQuestion() {
-    questionIndex += 1;
-    getQuestion();
+  questionIndex += 1;
+  getQuestion();
 }
-
-function submitHighscore() {
+function clearPage() {
   question.style.display = "none";
   toAnswer.style.display = "none";
   option1.style.display = "none";
@@ -257,6 +256,9 @@ function submitHighscore() {
   option4.style.display = "none";
   toAnswer.style.display = "none";
   choiceResult.style.display = "none";
+}
+function submitHighscore() {
+  clearPage();
 
   submitSection.style.display = "inline-block";
   restartButton.style.display = "inline-block";
