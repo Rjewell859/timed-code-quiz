@@ -149,38 +149,38 @@ function restart() {
 
 function getQuestion() {
   questionIndex++;
-  if (questionsLeft <= 0) {
-    submitHighscore();
+  if (questions[questionIndex]) {
+    answer = questions[questionIndex].answer;
+
+    question.innerHTML = questions[questionIndex].content;
+
+    option1.innerHTML = questions[questionIndex].choices[0];
+    option2.innerHTML = questions[questionIndex].choices[1];
+    option3.innerHTML = questions[questionIndex].choices[2];
+    option4.innerHTML = questions[questionIndex].choices[3];
+
+    optionButtons.appendChild(option1);
+    optionButtons.appendChild(option2);
+    optionButtons.appendChild(option3);
+    optionButtons.appendChild(option4);
+
+    option1.addEventListener("click", function (event) {
+      event.stopImmediatePropagation();
+      isCorrect(option1.innerText);
+    });
+    option2.addEventListener("click", function (event) {
+      event.stopImmediatePropagation();
+      isCorrect(option2.innerText);
+    });
+    option3.addEventListener("click", function (event) {
+      event.stopImmediatePropagation();
+      isCorrect(option3.innerText);
+    });
+    option4.addEventListener("click", function (event) {
+      event.stopImmediatePropagation();
+      isCorrect(option4.innerText);
+    });
   }
-  answer = questions[questionIndex].answer;
-  question.innerHTML = questions[questionIndex].content;
-
-  option1.innerHTML = questions[questionIndex].choices[0];
-  option2.innerHTML = questions[questionIndex].choices[1];
-  option3.innerHTML = questions[questionIndex].choices[2];
-  option4.innerHTML = questions[questionIndex].choices[3];
-
-  optionButtons.appendChild(option1);
-  optionButtons.appendChild(option2);
-  optionButtons.appendChild(option3);
-  optionButtons.appendChild(option4);
-
-  option1.addEventListener("click", function (event) {
-    event.stopImmediatePropagation();
-    isCorrect(option1.innerText);
-  });
-  option2.addEventListener("click", function (event) {
-    event.stopImmediatePropagation();
-    isCorrect(option2.innerText);
-  });
-  option3.addEventListener("click", function (event) {
-    event.stopImmediatePropagation();
-    isCorrect(option3.innerText);
-  });
-  option4.addEventListener("click", function (event) {
-    event.stopImmediatePropagation();
-    isCorrect(option4.innerText);
-  });
 }
 
 function quizRunning() {
@@ -190,6 +190,7 @@ function quizRunning() {
       timeLeft.innerText = seconds;
     } else {
       clearInterval(timeInterval);
+      submitHighscore();
     }
   }, 1000);
 }
@@ -244,6 +245,7 @@ function submitHighscore() {
       initials: submitArea.value,
       highScore: seconds,
     };
+
     localStorage.setItem("entry", JSON.stringify(highScoreEntry));
   });
 }
@@ -259,6 +261,5 @@ function viewHighscores() {
     question.innerHTML = "High Scores: ";
     highScores.style.display = "inline";
     submitSection.style.display = "none";
-    questions.style.display = "none";
   }
 }
